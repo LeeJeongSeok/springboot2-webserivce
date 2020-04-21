@@ -3,13 +3,16 @@ package com.lee.study.service.posts;
 
 import com.lee.study.domain.posts.Posts;
 import com.lee.study.domain.posts.PostsRepository;
+import com.lee.study.web.dto.PostsListResponseDto;
 import com.lee.study.web.dto.PostsResponseDto;
 import com.lee.study.web.dto.PostsSaveRequestDto;
 import com.lee.study.web.dto.PostsUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -37,4 +40,12 @@ public class PostsService {
 
         return new PostsResponseDto(entity);
     }
+
+    @Transactional(readOnly = true)
+    public List<PostsListResponseDto> findAllDesc() {
+        return postsRepository.findAllDesc().stream()
+                .map(PostsListResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
 }
