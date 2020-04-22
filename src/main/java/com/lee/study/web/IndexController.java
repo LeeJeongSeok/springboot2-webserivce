@@ -1,5 +1,6 @@
 package com.lee.study.web;
 
+import com.lee.study.config.auth.LoginUser;
 import com.lee.study.config.auth.dto.SessionUser;
 import com.lee.study.service.posts.PostsService;
 import com.lee.study.web.dto.PostsResponseDto;
@@ -35,9 +36,8 @@ public class IndexController {
     }
 
     @GetMapping("/")
-    public String index(Model model) {
+    public String index(Model model, @LoginUser SessionUser user) {
         model.addAttribute("posts", postsService.findAllDesc());
-        SessionUser user = (SessionUser) httpSession.getAttribute("user");
 
         if (user != null) {
             model.addAttribute("userName", user.getName());
